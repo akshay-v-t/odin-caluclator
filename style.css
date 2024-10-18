@@ -74,6 +74,19 @@ button.zero{
     flex: 50%;
 }
 
+button.operator{
+    background-color: #ff9d0a;
+    color: #fff;
+    border-color: #000;
+}
+
+button.equal{
+    background-color: #ff9d0a;
+    color: #fff;
+    border-color: #000;
+
+}
+
 .footer p{
     padding-top: 20px;
     font-size: 10px;;
