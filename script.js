@@ -1,5 +1,5 @@
-let firstNum = 10;
-let secondNum =5;
+let firstNum = null;
+let secondNum = null;
 let operator = '';
 let displayValue ='';
 let a
@@ -24,7 +24,11 @@ buttons.forEach((button) => {
             displayValue = '';
             inputText.value ='';
         }
-        else if(button.classList.contains('number')){
+        else if(button.classList.contains('number') || button.id==='.'){
+
+            if(button.id === '.' && displayValue.includes('.')){
+                return;
+            }
 
             displayValue += button.id
 
@@ -34,26 +38,44 @@ buttons.forEach((button) => {
            
         }
 
-        else if(button.classList.contains('operator')){
-
-            if(displayValue){
-                firstNum = parseFloat(displayValue);
-                operator = button.id;
-                displayValue='';
-               
+        else if (button.classList.contains('operator')) {
+            if (displayValue) {
+                if (firstNum !== null && operator) {
+                   
+                    secondNum = parseFloat(displayValue);
+                    const result = operate(firstNum, secondNum, operator);
+                    inputText.value = result; 
+                    firstNum = result; 
+                } else {
+                    
+                    firstNum = parseFloat(displayValue);
+                }
+                operator = button.id; 
+                displayValue = ''; 
             }
-
         }
+        
+    
         else if(button.id === '='){
 
-            if(displayValue){
+            if(displayValue && operator && firstNum !== null){
 
                 secondNum = parseFloat(displayValue);
                 const result = operate(firstNum,secondNum,operator);
-                inputText.value = result
+                
+                if(typeof result === 'string'){
+                    inputText.value = result
+                }
+                else
+                
+                
+                {inputText.value = result.toFixed(2);}
                 firstNum = result;
                 secondNum = null;
                 displayValue = ''
+                
+            }else{
+                inputText.value = 'ERROR'
             }
 
         }
@@ -65,7 +87,14 @@ buttons.forEach((button) => {
 const add = (a,b) => a+b ;
 const subtract = (a,b) => a - b;
 const multiply = (a,b) => a*b;
-const divide = (a,b) => a/b;
+const divide = (a,b) => {
+    if (b===0){
+        return "NOT ALLOW"
+    }
+    else{
+        return a/b;
+    }
+};
 
 const operate = function(firstNum,secondNum,operator){
     if(operator=== '+'){
